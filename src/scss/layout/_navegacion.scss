@@ -2,6 +2,8 @@
     display: flex;
     flex-direction: column;
     padding-top: 3rem;
+    align-items: center;
+
     @include tablet {
         flex-direction: row;
         justify-content: space-between;
@@ -9,11 +11,16 @@
 }
 
 
-.navegacion{
+.navegacion {
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility .3s ease-in-out, opacity 0.5s linear;
 
     @include tablet {
         display: flex;
         align-items: center;
+        opacity: 1;
+        visibility: visible;
     }
 
     a {
@@ -32,4 +39,23 @@
             }
         }
     }
+}
+
+
+/*Menu hamburguesa*/
+@include tablet {
+    .mobile-menu {
+        display: none;
+    }
+
+    img {
+        width: 5rem;
+
+    }
+}
+
+
+.mostrar {
+    visibility: visible;
+    opacity: 1;
 }
