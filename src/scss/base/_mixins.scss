@@ -31,6 +31,8 @@
     text-align: center;
     margin-top: $separacion / 2;
     display: $display;
+    border: none;
+    cursor: pointer;
 
 
     &:hover {
