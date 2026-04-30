@@ -1,11 +1,13 @@
 document.addEventListener('DOMContentLoaded', function() {
-    addEventListener();
+    eventListeners();
+
+    darkMode();
 })
 
 function eventListeners() {
     const mobileMenu = document.querySelector('.mobile-menu');
 
-    mobileMenu.addEventListener('click', navegacionResponsive );
+    mobileMenu.addEventListener('click', responsiveNavigation );
 }
 
 
@@ -14,4 +16,13 @@ function responsiveNavigation() {
 
     navigation.classList.toggle('mostrar');
 
+}
+
+
+function darkMode() {
+    
+    const btnDarkMode = document.querySelector('.dark-mode-boton');
+    btnDarkMode.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode')
+    })
 }
