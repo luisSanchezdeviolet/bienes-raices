@@ -2,7 +2,7 @@
 
 require 'app.php';
 
-function includeTemplate($name, $inicio = false) {
+function includeTemplate(string $name, bool $inicio = false) {
     include TEMPLATES_URL."/${name}.php"; 
 
 }
