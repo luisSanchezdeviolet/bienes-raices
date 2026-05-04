@@ -10,7 +10,7 @@
 
 <body>
 
-    <header class="header <?= isset($inicio) ? 'inicio' : ''; ?>">
+    <header class="header <?= $inicio ? 'inicio' : ''; ?>">
         <div class="contenedor contenido-header">
             <div class="barra">
                 <a href="index.php">

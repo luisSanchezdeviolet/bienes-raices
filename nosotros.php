@@ -1,4 +1,9 @@
-<?php include 'includes/templates/header.php'; ?>
+<?php
+
+    require 'includes/functions.php';
+    
+    includeTemplate('header' );
+?>
 
     <main class="contenedor">
         <h1>Conoce sobre nosotros</h1>
@@ -47,5 +52,5 @@
     </section>
 
 <?php
-    include 'includes/templates/footer.php'; 
+    includeTemplate('footer' );
 ?>
