@@ -4,6 +4,10 @@
 require '../../includes/config/database.php';
 $db = dbConnect();
 
+//Consultar para obtener los vendedores
+$consult = "SELECT * FROM sellers";
+$result = mysqli_query($db, $consult);
+
 //Arreglo con mensajes de errores
 $errors = [];
 
@@ -14,6 +18,7 @@ $rooms = '';
 $wc = '';
 $parking = '';
 $seller = '';
+$create = date('Y/m/d');
 
 
 //Ejeecutar el codigo despues de que el usuario envia el formulario
@@ -56,12 +61,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (empty($errors)) {
         //Insertar en la base de datosd
-        $query = "INSERT INTO properties (title, price, description, rooms, wc, parking, sellers_id) VALUES ('$title', '$price', '$description', '$rooms', '$wc', '$parking', '$seller') ";
+        $query = "INSERT INTO properties (title, price, description, rooms, wc, parking, date , sellers_id) VALUES ('$title', '$price', '$description', '$rooms', '$wc', '$parking', '$create' ,'$seller') ";
 
         $result = mysqli_query($db, $query);
 
         if ($result) {
-            echo "Insertado correctamente";
+            //Redireccionar al usuario
+            header('Location: ../admin');
         }
     }
 }
@@ -122,8 +128,10 @@ includeTemplate('header');
 
             <select name="seller" id="seller">
                 <option value="">--Seleccione--</option>
-                <option value="1">Juan</option>
-                <option value="2">Karen</option>
+                <?php while($row = mysqli_fetch_assoc($result)): ?>
+                    <option  <?= $seller === $row['id'] ? 'selected' : ''; ?>  value="<?= $row['id']; ?>"><?= $row['name']." ".$row['last_name']; ?></option>
+
+                <?php endwhile; ?>
             </select>
 
         </fieldset>
