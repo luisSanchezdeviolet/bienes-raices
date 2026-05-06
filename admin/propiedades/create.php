@@ -34,6 +34,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $parking = mysqli_real_escape_string($db, $_POST['parking']);
     $seller = mysqli_real_escape_string($db, $_POST['seller']);
 
+
+    //Asignar files hacia una variable
+    $image = $_FILES['imagen'];
+
     if (!$title) {
         $errors[] = 'Debes añadir un titulo';
     }
@@ -60,6 +64,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (!$seller) {
         $errors[] = 'Elige un vendedor';
+    }
+
+    if($image['name'] || $image['error']) {
+        $errors[] = 'La imagen es obligatoria';
+    }
+
+    //Validar por tamaño (100kb)
+    $size = 1000 * 100;
+    if($image['size'] > $size) {
+        $errors[] = 'La imagen es muy pesada';
     }
 
     if (empty($errors)) {
@@ -94,7 +108,7 @@ includeTemplate('header');
         </div>
 
     <?php endforeach; ?>
-    <form method="POST" action="../propiedades/create.php" class="formulario">
+    <form method="POST" action="../propiedades/create.php" class="formulario" enctype="multipart/form-data">
         <fieldset>
             <legend>Informacion General</legend>
 
