@@ -104,7 +104,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($result) {
             //Redireccionar al usuario
-            header('Location: ../index.php');
+            header('Location: ../index.php?result=1');
         }
     }
 }
