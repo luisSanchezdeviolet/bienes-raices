@@ -36,7 +36,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
     //Asignar files hacia una variable
-    $image = $_FILES['imagen'];
+    $image = $_FILES['image'];
+
+    // var_dump($image);
 
     if (!$title) {
         $errors[] = 'Debes añadir un titulo';
@@ -46,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors[] = 'El precio es Obligatorio';
     }
 
-    if (strlen(!$description) < 50) {
+    if (!strlen($description) > 50) {
         $errors[] = 'La descripcion es Obligatorio y dbee tener al menos 50 caracteres';
     }
 
@@ -66,25 +68,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors[] = 'Elige un vendedor';
     }
 
-    if($image['name'] || $image['error']) {
+
+    if(!$image['name'] || $image['error']) {
         $errors[] = 'La imagen es obligatoria';
     }
 
     //Validar por tamaño (100kb)
-    $size = 1000 * 100;
+    $size = 10000 * 100;
     if($image['size'] > $size) {
         $errors[] = 'La imagen es muy pesada';
     }
 
     if (empty($errors)) {
+
+        //Subida de archivos
+
+        //crear carpeta
+        $imageFolder = '../../images/';
+        if(!is_dir($imageFolder)) {
+            mkdir($imageFolder);
+        }
+
+
+
+        //Generar nombre unico
+        $imageName = md5(uniqid(rand(), true)).'.jpg';
+
+        //Subir la imagen
+        move_uploaded_file($image['tmp_name'], $imageFolder.$imageName);
+
         //Insertar en la base de datosd
-        $query = "INSERT INTO properties (title, price, description, rooms, wc, parking, date , sellers_id) VALUES ('$title', '$price', '$description', '$rooms', '$wc', '$parking', '$create' ,'$seller') ";
+        $query = "INSERT INTO properties (title, price, image, description, rooms, wc, parking, date , sellers_id) VALUES ('$title', '$price', '$imageName', '$description', '$rooms', '$wc', '$parking', '$create' ,'$seller') ";
 
         $result = mysqli_query($db, $query);
 
         if ($result) {
             //Redireccionar al usuario
-            header('Location: ../admin');
+            header('Location: ../index.php');
         }
     }
 }
