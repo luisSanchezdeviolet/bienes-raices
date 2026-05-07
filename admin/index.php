@@ -28,6 +28,8 @@ includeTemplate('header');
 
     <?php if (intval($result) === 1): ?>
         <p class="alerta exito">Anuncio creado correctamente</p>
+    <?php elseif (intval($result) === 2): ?>
+    <p class="alerta exito">Anuncio actualizado correctamente</p>
     <?php endif; ?>
 
     <a href="propiedades/create.php" class="boton boton-verde">Nueva propiedad</a>
@@ -52,7 +54,7 @@ includeTemplate('header');
                 <td>$<?= $property['price']; ?></td>
                 <td>
                     <a href="#" class="boton-rojo-block">Eliminar</a>
-                    <a href="#" class="boton-amarillo-block">Actualizar</a>
+                    <a href="propiedades/update.php?id=<?= $property['id']; ?>" class="boton-amarillo-block">Actualizar</a>
                 </td>
             </tr>
             <?php endwhile; ?>
