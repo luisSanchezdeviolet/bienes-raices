@@ -1,5 +1,11 @@
 <?php
 
+session_start();
+
+if(!$_SESSION['login']) {
+    header("Location: ../index.php");
+}
+
     require '../../includes/functions.php';
     
     includeTemplate('header' );

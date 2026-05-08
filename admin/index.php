@@ -1,5 +1,11 @@
 <?php
 
+session_start();
+
+if(!$_SESSION['login']) {
+    header("Location: ../index.php");
+}
+
 //Importar la conexion
 require '../includes/config/database.php';
 $db = dbConnect();

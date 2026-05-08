@@ -1,4 +1,10 @@
 <?php
+session_start();
+
+if(!$_SESSION['login']) {
+    header("Location: ../index.php");
+}
+
 
 $id = $_GET['id'];
 $id = filter_var($id, FILTER_VALIDATE_INT);
