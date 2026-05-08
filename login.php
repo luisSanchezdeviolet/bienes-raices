@@ -4,15 +4,17 @@ require 'includes/config/database.php';
 
 $db = dbConnect();
 
+$errors = [];
+
 //Autenticar el usuario
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
     $email = mysqli_real_escape_string($db, filter_var($_POST['email'], FILTER_VALIDATE_EMAIL));
     $password = mysqli_real_escape_string($db, $_POST['password']);
 
-    $erros = [];
+    
 
     if(!$email) {
-        $erros[] = 'El email es obligatorio o no es valido';
+        $errors[] = 'El email es obligatorio o no es valido';
     }
 
     if(!$password) {
@@ -38,13 +40,13 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                 //llenar el arreglo de la sesion
                 $_SESSION['user'] = $user['email'];
                 $_SESSION['login'] = true;
-
+                header("Location: admin/index.php");
             }else {
                 $errors[] = "El password es incorrecto";
             }
 
         }else{
-            $errros[] = "El usuario no existe";
+            $errors[] = "El usuario no existe";
         }
     }
 }

@@ -1,9 +1,11 @@
 <?php
 
-session_start();
+require '../../includes/functions.php';
 
-if(!$_SESSION['login']) {
-    header("Location: ../index.php");
+$auth = isAuth();
+
+if(!$auth) {
+    header('Location: ../index.php');
 }
 
 //Base de datos
@@ -116,7 +118,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 
-require '../../includes/functions.php';
+
 
 includeTemplate('header');
 ?>

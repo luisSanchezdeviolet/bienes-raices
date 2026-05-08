@@ -1,9 +1,11 @@
 <?php
 
-session_start();
+require '../includes/functions.php';
 
-if(!$_SESSION['login']) {
-    header("Location: ../index.php");
+$auth = isAuth();
+
+if(!$auth) {
+    header('Location: ../index.php');
 }
 
 //Importar la conexion
@@ -45,7 +47,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 //incluir template
-require '../includes/functions.php';
+
 
 includeTemplate('header');
 

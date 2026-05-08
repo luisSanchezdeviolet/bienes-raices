@@ -1,8 +1,11 @@
 <?php
-session_start();
 
-if(!$_SESSION['login']) {
-    header("Location: ../index.php");
+require '../../includes/config/database.php';
+
+$auth = isAuth();
+
+if(!$auth) {
+    header('Location: ../index.php');
 }
 
 
@@ -14,7 +17,7 @@ if(!$id) {
 }
 
 //Base de datos
-require '../../includes/config/database.php';
+
 $db = dbConnect();
 
 //Obtener los datos de la propiedad
