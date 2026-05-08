@@ -1,41 +1,63 @@
 <?php
 
+    $id = $_GET['id'];
+    $id = filter_var($id, FILTER_VALIDATE_INT);
+    
+    if(!$id) {
+        header('Location: index.php');
+    }
+
+    require 'includes/config/database.php';
+    $db = dbConnect();
+
+    //consultar
+    $query = "SELECT * FROM properties WHERE id = ${id}";
+
+    //obtener el resultado
+    $result = mysqli_query($db, $query);
+
+    if(!$result->num_rows) {
+        header('Location: index.php');
+    }
+
+    $propertie = mysqli_fetch_assoc($result);
+
     require 'includes/functions.php';
     
     includeTemplate('header');
 ?>
 
     <main class="contenedor seccion contenido-centrado">
-        <h1>Casa en venta frente al bosque</h1>
-        <picture>
-            <source srcset="build/img/destacada.webp" type="image/webp">
-            <source srcset="build/img/destacada.jpg" type="image/jpeg">
-            <img src="build/img/destacada.jpg" alt="Imagen de la propiedad" loading="lazy">
-        </picture>
+        <h1><?= $propertie['title']; ?></h1>
+
+        <img src="images/<?= $propertie['image']; ?>" alt="Imagen de la propiedad" loading="lazy">
+
 
         <div class="resumen-propiedad">
-            <p class="precio">$3,000,000</p>
+            <p class="precio">$<?= $propertie['price']; ?></p>
             <ul class="iconos-caracteristicas">
                 <li>
                     <img class="icono" loading="lazy" src="build/img/icono_wc.svg" alt="icono WC">
-                    <p>3</p>
+                    <p><?= $propertie['wc']; ?></p>
                 </li>
                 <li>
                     <img class="icono" loading="lazy" src="build/img/icono_estacionamiento.svg" alt="icono estacionamiento">
-                    <p>3</p>
+                    <p><?= $propertie['parking']; ?></p>
                 </li>
                 <li>
                     <img class="icono" loading="lazy" src="build/img/icono_dormitorio.svg" alt="icono recamaras">
-                    <p>4</p>
+                    <p><?= $propertie['rooms']; ?></p>
                 </li>
             </ul>
 
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro ipsa vero, quo nihil distinctio alias non. Nisi ipsa fugit tempora est sapiente dolores accusantium voluptas illo, perspiciatis commodi eligendi cumque.</p>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro ipsa vero, quo nihil distinctio alias non. Nisi ipsa fugit tempora est sapiente dolores accusantium voluptas illo, perspiciatis commodi eligendi cumque.</p>
+            <p><?= $propertie['description']; ?>.</p>
 
         </div>
     </main>
 
    <?php
+
+    mysqli_close($db);
+
     includeTemplate('footer' );
 ?>

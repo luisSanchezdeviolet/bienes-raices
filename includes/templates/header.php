@@ -22,7 +22,7 @@
                 </div>
 
                 <div class="derecha">
-                    <img src="/bienes_raices/build/img//dark-mode.svg" alt="Boton dark Mode" class="dark-mode-boton">
+                    <img src="/bienes_raices/build/img/dark-mode.svg" alt="Boton dark Mode" class="dark-mode-boton">
                     <nav class="navegacion">
                         <a href="nosotros.php">Nosotros</a>
                         <a href="anuncios.php">Anuncios</a>
@@ -31,6 +31,8 @@
                     </nav>
                 </div>
             </div> <!--Cierre barra-->
+
+            <?php echo $inicio ? "<h1>Venta de casas y departamentos exclusivos de lujos</h1>" : ''; ?>
 
         </div>
 

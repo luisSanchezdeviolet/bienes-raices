@@ -4,7 +4,7 @@
     }
 }
 
-.icono {
+.icono{
     text-align: center;
 
     img {
@@ -13,5 +13,11 @@
 
     h3 {
         text-transform: uppercase;
+    }
+}
+
+.iconos-caracteristicas {
+    .icono {
+        width: 5rem;
     }
 }
