@@ -1,15 +1,15 @@
 <?php
 
-require '../../includes/functions.php';
+require '../../includes/app.php';
 
-$auth = isAuth();
+use App\Propertie;
 
-if(!$auth) {
-    header('Location: ../index.php');
-}
+
+isAuth();
+
+
 
 //Base de datos
-require '../../includes/config/database.php';
 $db = dbConnect();
 
 //Consultar para obtener los vendedores

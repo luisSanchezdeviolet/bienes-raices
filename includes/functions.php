@@ -12,12 +12,20 @@ function includeTemplate(string $name, bool $inicio = false) {
 
 function isAuth(): bool {
     session_start();
-    $auth = $_SESSION['login'];
-    if($auth) {
-        return true;
+
+    if(!$_SESSION['login']) {
+        header("Location: ".__DIR__.'/../index.php');
     }
 
     return false;
     
 
+}
+
+
+function debug($var) {
+    echo "<pre>";
+    var_dump($var);
+    echo "</pre>";
+    exit;
 }
