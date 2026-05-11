@@ -1,6 +1,6 @@
 <?php
 
-require 'includes/config/database.php';
+require 'includes/app.php';
 
 $db = dbConnect();
 
@@ -52,7 +52,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 }
 
 //Incluye el header
-require 'includes/functions.php';
+
 
 includeTemplate('header');
 ?>

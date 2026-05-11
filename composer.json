@@ -1,0 +1,16 @@
+{
+    "name": "ferxxo/bienes_raices",
+    "description": "Creando proyecto con POO",
+    "authors": [
+        {
+            "name": "luis fernando cruz",
+            "email": "cruzsanchezluis@vidataservices.com"
+        }
+    ],
+    "require": {},
+    "autoload":{
+        "psr-4": {
+            "App\\": "./classes"
+        }
+    }
+}

@@ -7,7 +7,8 @@
         header('Location: index.php');
     }
 
-    require 'includes/config/database.php';
+    require 'includes/app.php';
+
     $db = dbConnect();
 
     //consultar
@@ -22,7 +23,7 @@
 
     $propertie = mysqli_fetch_assoc($result);
 
-    require 'includes/functions.php';
+    
     
     includeTemplate('header');
 ?>
