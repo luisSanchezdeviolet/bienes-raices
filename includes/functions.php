@@ -15,7 +15,7 @@ function isAuth(): bool {
     session_start();
 
     if(!$_SESSION['login']) {
-        header("Location: ".__DIR__.'/../index.php');
+        header("Location: ../index.php");
     }
 
     return false;
@@ -29,4 +29,10 @@ function debug($var) {
     var_dump($var);
     echo "</pre>";
     exit;
+}
+
+//escapa el html
+function sanitize($html): string {
+    $s = htmlspecialchars($html);
+    return $s;
 }

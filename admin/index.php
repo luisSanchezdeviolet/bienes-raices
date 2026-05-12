@@ -1,22 +1,12 @@
 <?php
 
 require '../includes/app.php';
-
 isAuth();
 
+use App\Propertie;
 
-
-//Importar la conexion
-require '../includes/config/database.php';
-$db = dbConnect();
-
-//Escribir el query
-
-$query = "SELECT * FROM properties";
-
-//consultar la bd
-$resultDb = mysqli_query($db, $query);
-
+//implementar un metodo para  obtener las propiedades utilizando active records
+$properties = Propertie::getAll();
 
 //Mostrar mensaje condicional
 $result = $_GET['result'] ?? null;
@@ -77,21 +67,21 @@ includeTemplate('header');
         </thead>
 
         <tbody>
-            <?php while($property = mysqli_fetch_assoc($resultDb)): ?>
+            <?php foreach($properties as $propertie): ?>
             <tr>
-                <td><?= $property['id']; ?></td>
-                <td><?= $property['title']; ?></td>
-                <td><img src="../images/<?= $property['image']; ?>" class="imagen-tabla" alt=""></td>
-                <td>$<?= $property['price']; ?></td>
+                <td><?= $propertie->id; ?></td>
+                <td><?= $propertie->title; ?></td>
+                <td><img src="../images/<?= $propertie->image; ?>" class="imagen-tabla" alt=""></td>
+                <td>$<?= $propertie->price; ?></td>
                 <td>
                     <form  method="POST" class="w-100">
-                        <input type="hidden" name="id" value="<?= $property['id']; ?>">
+                        <input type="hidden" name="id" value="<?= $propertie->id; ?>">
                         <input type="submit" value="Eliminar" class="boton-rojo-block">
                     </form>
-                    <a href="propiedades/update.php?id=<?= $property['id']; ?>" class="boton-amarillo-block">Actualizar</a>
+                    <a href="propiedades/update.php?id=<?= $propertie->id; ?>" class="boton-amarillo-block">Actualizar</a>
                 </td>
             </tr>
-            <?php endwhile; ?>
+            <?php endforeach; ?>
         </tbody>
     </table>
 

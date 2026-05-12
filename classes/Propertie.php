@@ -136,4 +136,45 @@ class Propertie
             $this->image = $image;
         }
     }
+
+
+    public static function getAll() {
+        $query = "SELECT * FROM properties";
+
+        $result = self::sqlConsult($query);
+
+        return $result;
+
+    }
+
+    public static function sqlConsult($query) {
+        //Consultar la base de datos
+        $result = self::$db->query($query);
+
+        //Iterar los resultados
+        $array = [];
+        while($register = $result->fetch_assoc()) {
+            $array[] = self::createObject($register);
+        }
+
+        //Liberar la memoria
+        $result->free();
+
+
+        //retornar los resultados
+        return $array;
+    }
+
+
+    protected static function createObject($register) {
+        $object = new self;
+
+        foreach($register as $key => $value) {
+            if(property_exists($object, $key)) {
+                $object->$key = $value;
+            }
+        }
+
+        return $object;
+    }
 }
