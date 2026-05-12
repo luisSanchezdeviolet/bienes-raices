@@ -3,7 +3,8 @@
 require '../../includes/app.php';
 
 use App\Propertie;
-
+use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\ImageManager as Image;
 
 isAuth();
 
@@ -34,35 +35,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $propertie = new Propertie($_POST);
 
+    //Generar nombre unico
+    $imageName = md5(uniqid(rand(), true)) . '.jpg';
+    if($_FILES['image']['tmp_name']) {
+        $manager = new Image(Driver::class);
+        $image = $manager->read($_FILES['image']['tmp_name'])->cover(800,600);
+        $propertie->setImage($imageName);
+    }
+
     $errors = $propertie->validate();
 
-   
+
 
     if (empty($errors)) {
-
-    $propertie->save();
 
 
         //Subida de archivos
 
         //crear carpeta
         $imageFolder = '../../images/';
-        if(!is_dir($imageFolder)) {
+        if (!is_dir($imageFolder)) {
             mkdir($imageFolder);
         }
-
-
-
-        //Generar nombre unico
-        $imageName = md5(uniqid(rand(), true)).'.jpg';
-
-        //Subir la imagen
-        move_uploaded_file($image['tmp_name'], $imageFolder.$imageName);
-
         
+        //Guarda la imagen en el servidor
+        $image->save($imageFolder.$imageName);
 
-        $result = mysqli_query($db, $query);
-
+        $result = $propertie->save();
         if ($result) {
             //Redireccionar al usuario
             header('Location: ../index.php?result=1');
@@ -126,8 +125,8 @@ includeTemplate('header');
 
             <select name="sellers_id" id="seller">
                 <option value="">--Seleccione--</option>
-                <?php while($row = mysqli_fetch_assoc($result)): ?>
-                    <option  <?= $seller === $row['id'] ? 'selected' : ''; ?>  value="<?= $row['id']; ?>"><?= $row['name']." ".$row['last_name']; ?></option>
+                <?php while ($row = mysqli_fetch_assoc($result)): ?>
+                    <option <?= $seller === $row['id'] ? 'selected' : ''; ?> value="<?= $row['id']; ?>"><?= $row['name'] . " " . $row['last_name']; ?></option>
 
                 <?php endwhile; ?>
             </select>

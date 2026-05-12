@@ -29,7 +29,7 @@ class Propertie
         $this->id = $args['id'] ?? '';
         $this->title = $args['title'] ?? '';
         $this->price = $args['price'] ?? '';
-        $this->image = $args['image'] ?? 'imagen.jpg';
+        $this->image = $args['image'] ?? '';
         $this->description = $args['description'] ?? '';
         $this->rooms = $args['rooms'] ?? '';
         $this->wc = $args['wc'] ?? '';
@@ -63,7 +63,6 @@ class Propertie
 
         $result = self::$db->query($query);
 
-        debug($result);
     }
 
     //identificar y unir los atributos de la bd
@@ -125,18 +124,18 @@ class Propertie
         }
 
 
-        // if (!$this->image['name'] || $this->image['error']) {
-        //     $errors[] = 'La imagen es obligatoria';
-        // }
+        if (!$this->image) {
+            self::$errors[] = 'La imagen es obligatoria';
+        }
 
-        // //Validar por tamaño (100kb)
-        // $size = 10000 * 100;
-        // if ($this->image['size'] > $size) {
-        //     $errors[] = 'La imagen es muy pesada';
-        // }
-
-        debug(self::$errors);
 
         return self::$errors;
+    }
+
+
+    public function setImage($image) {
+        if($image) {
+            $this->$image = $image;
+        }
     }
 }
