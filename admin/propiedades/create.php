@@ -16,8 +16,8 @@ $db = dbConnect();
 $consult = "SELECT * FROM sellers";
 $result = mysqli_query($db, $consult);
 
-//Arreglo con mensajes de errores
-$errors = [];
+$errors = Propertie::getErros();
+
 
 $title = '';
 $price = '';
@@ -32,62 +32,16 @@ $create = date('Y/m/d');
 //Ejeecutar el codigo despues de que el usuario envia el formulario
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
+    $propertie = new Propertie($_POST);
 
+    $errors = $propertie->validate();
 
-    $title = mysqli_real_escape_string($db, $_POST['title']);
-    $price = mysqli_real_escape_string($db, $_POST['price']);
-    $description = mysqli_real_escape_string($db, $_POST['description']);
-    $rooms = mysqli_real_escape_string($db, $_POST['rooms']);
-    $wc = mysqli_real_escape_string($db, $_POST['wc']);
-    $parking = mysqli_real_escape_string($db, $_POST['parking']);
-    $seller = mysqli_real_escape_string($db, $_POST['seller']);
-
-
-    //Asignar files hacia una variable
-    $image = $_FILES['image'];
-
-    // var_dump($image);
-
-    if (!$title) {
-        $errors[] = 'Debes añadir un titulo';
-    }
-
-    if (!$price) {
-        $errors[] = 'El precio es Obligatorio';
-    }
-
-    if (!strlen($description) > 50) {
-        $errors[] = 'La descripcion es Obligatorio y dbee tener al menos 50 caracteres';
-    }
-
-    if (!$rooms) {
-        $errors[] = 'El numero de habitaciones es obligatorio';
-    }
-
-    if (!$wc) {
-        $errors[] = 'El numero de baños es obligatorio';
-    }
-
-    if (!$parking) {
-        $errors[] = 'El numero de estacionamientos es obligatorio';
-    }
-
-    if (!$seller) {
-        $errors[] = 'Elige un vendedor';
-    }
-
-
-    if(!$image['name'] || $image['error']) {
-        $errors[] = 'La imagen es obligatoria';
-    }
-
-    //Validar por tamaño (100kb)
-    $size = 10000 * 100;
-    if($image['size'] > $size) {
-        $errors[] = 'La imagen es muy pesada';
-    }
+   
 
     if (empty($errors)) {
+
+    $propertie->save();
+
 
         //Subida de archivos
 
@@ -105,8 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         //Subir la imagen
         move_uploaded_file($image['tmp_name'], $imageFolder.$imageName);
 
-        //Insertar en la base de datosd
-        $query = "INSERT INTO properties (title, price, image, description, rooms, wc, parking, date , sellers_id) VALUES ('$title', '$price', '$imageName', '$description', '$rooms', '$wc', '$parking', '$create' ,'$seller') ";
+        
 
         $result = mysqli_query($db, $query);
 
@@ -171,7 +124,7 @@ includeTemplate('header');
         <fieldset>
             <legend>Vendedor</legend>
 
-            <select name="seller" id="seller">
+            <select name="sellers_id" id="seller">
                 <option value="">--Seleccione--</option>
                 <?php while($row = mysqli_fetch_assoc($result)): ?>
                     <option  <?= $seller === $row['id'] ? 'selected' : ''; ?>  value="<?= $row['id']; ?>"><?= $row['name']." ".$row['last_name']; ?></option>

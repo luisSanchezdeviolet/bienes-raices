@@ -7,7 +7,9 @@
             "email": "cruzsanchezluis@vidataservices.com"
         }
     ],
-    "require": {},
+    "require": {
+        "intervention/image": "^3.11"
+    },
     "autoload":{
         "psr-4": {
             "App\\": "./classes"
