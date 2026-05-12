@@ -123,11 +123,9 @@ class Propertie
             self::$errors[] = 'Elige un vendedor';
         }
 
-
         if (!$this->image) {
             self::$errors[] = 'La imagen es obligatoria';
         }
-
 
         return self::$errors;
     }
@@ -135,7 +133,7 @@ class Propertie
 
     public function setImage($image) {
         if($image) {
-            $this->$image = $image;
+            $this->image = $image;
         }
     }
 }

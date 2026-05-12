@@ -53,13 +53,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         //Subida de archivos
 
         //crear carpeta
-        $imageFolder = '../../images/';
-        if (!is_dir($imageFolder)) {
-            mkdir($imageFolder);
+        if (!is_dir(IMAGE_FOLDER)) {
+            mkdir(IMAGE_FOLDER);
         }
         
         //Guarda la imagen en el servidor
-        $image->save($imageFolder.$imageName);
+        $image->save(IMAGE_FOLDER.$imageName);
 
         $result = $propertie->save();
         if ($result) {

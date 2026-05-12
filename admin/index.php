@@ -1,12 +1,10 @@
 <?php
 
-require '../includes/functions.php';
+require '../includes/app.php';
 
-$auth = isAuth();
+isAuth();
 
-if(!$auth) {
-    header('Location: ../index.php');
-}
+
 
 //Importar la conexion
 require '../includes/config/database.php';
