@@ -4,9 +4,12 @@ require '../includes/app.php';
 isAuth();
 
 use App\Propertie;
+use App\Seller;
+
 
 //implementar un metodo para  obtener las propiedades utilizando active records
 $properties = Propertie::getAll();
+$seller = Seller::getAll();
 
 //Mostrar mensaje condicional
 $result = $_GET['result'] ?? null;

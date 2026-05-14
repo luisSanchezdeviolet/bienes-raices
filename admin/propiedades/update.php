@@ -55,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         //Almacenar la imagen
         $image->save(IMAGE_FOLDER.$imageName);
 
-        $result = $propertie->save();
+        $propertie->save();
 
         
     }
