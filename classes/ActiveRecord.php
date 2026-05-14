@@ -8,36 +8,15 @@ class ActiveRecord {
     
     //Base de datos
     protected static $db;
-    protected static $columnsDb = ['id', 'title', 'price', 'image', 'description', 'rooms', 'wc', 'parking', 'date', 'sellers_id'];
+    protected static $columnsDb = [];
     protected static $table = '';
 
     //Errores
     protected static $errors = [];
 
-    public $id;
-    public $title;
-    public $price;
-    public $image;
-    public $description;
-    public $rooms;
-    public $wc;
-    public $parking;
-    public $sellers_id;
-    public $date;
+    
 
-    public function __construct($args = [])
-    {
-        $this->id = $args['id'] ?? null;
-        $this->title = $args['title'] ?? '';
-        $this->price = $args['price'] ?? '';
-        $this->image = $args['image'] ?? '';
-        $this->description = $args['description'] ?? '';
-        $this->rooms = $args['rooms'] ?? '';
-        $this->wc = $args['wc'] ?? '';
-        $this->parking = $args['parking'] ?? '';
-        $this->sellers_id = $args['sellers_id'] ?? '';
-        $this->date = date('Y/m/d');
-    }
+    
 
 
     //Definir la conexion a la db
@@ -242,7 +221,7 @@ class ActiveRecord {
 
     protected static function createObject($register)
     {
-        $object = new self;
+        $object = new static;
 
         foreach ($register as $key => $value) {
             if (property_exists($object, $key)) {
