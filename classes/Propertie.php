@@ -45,8 +45,18 @@ class Propertie
         self::$db = $database;
     }
 
+    public function save() {
+        if(isset($this->id)) {
+            //actualizar
+            $this->update();
+        }else {
+            //Creando nuevo registro
+            $this->create();
+        }
+    }
 
-    public function save()
+
+    public function create()
     {
 
         //sanitizar los datos
@@ -62,6 +72,30 @@ class Propertie
 
 
         $result = self::$db->query($query);
+
+    }
+
+    public function update() {
+        $attributes = $this->sanitizeAttributes();
+        
+        $values = [];
+        foreach($attributes as $key=> $value) {
+            $values[] ="{$key}='value'";
+        }
+
+        $query = "UPDATE properties SET ";
+        $query.= join(', ', $values);
+        $query .= "WHERE id ='". self::$db->escape_string($this->id). "' ";
+        $query .= "LIMIT 1";
+
+        $result = self::$db->query($query);
+
+        return $result;
+
+        if ($result) {
+            //Redireccionar al usuario
+            header('Location: ../index.php?result=2');
+        }
 
     }
 
@@ -132,6 +166,15 @@ class Propertie
 
 
     public function setImage($image) {
+        //Elimina imagen previa
+        if(isset($this->id)) {
+            //Comprobar si existe el archivo
+            $archiveExist = file_exists(IMAGE_FOLDER.$this->image);
+            if($archiveExist) {
+                unlink(IMAGE_FOLDER.$this->image);
+            }
+        }
+
         if($image) {
             $this->image = $image;
         }
