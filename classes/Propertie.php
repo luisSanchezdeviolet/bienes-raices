@@ -45,11 +45,12 @@ class Propertie
         self::$db = $database;
     }
 
-    public function save() {
-        if(isset($this->id)) {
+    public function save()
+    {
+        if (isset($this->id)) {
             //actualizar
             $this->update();
-        }else {
+        } else {
             //Creando nuevo registro
             $this->create();
         }
@@ -72,20 +73,20 @@ class Propertie
 
 
         $result = self::$db->query($query);
-
     }
 
-    public function update() {
+    public function update()
+    {
         $attributes = $this->sanitizeAttributes();
-        
+
         $values = [];
-        foreach($attributes as $key=> $value) {
-            $values[] ="{$key}='value'";
+        foreach ($attributes as $key => $value) {
+            $values[] = "{$key}='value'";
         }
 
         $query = "UPDATE properties SET ";
-        $query.= join(', ', $values);
-        $query .= "WHERE id ='". self::$db->escape_string($this->id). "' ";
+        $query .= join(', ', $values);
+        $query .= "WHERE id ='" . self::$db->escape_string($this->id) . "' ";
         $query .= "LIMIT 1";
 
         $result = self::$db->query($query);
@@ -96,7 +97,18 @@ class Propertie
             //Redireccionar al usuario
             header('Location: ../index.php?result=2');
         }
+    }
 
+    //Eliminar registro
+    public function delete()
+    {
+        $query = "DELETE FROM properties WHERE id = " . self::$db->escape_string($this->id) . " LIMIT 1";
+        $result = self::$db->query($query);
+
+        if ($result) {
+            $this->imageDelete();
+            header("Location: ../admin/index.php?result=3");
+        }
     }
 
     //identificar y unir los atributos de la bd
@@ -165,45 +177,53 @@ class Propertie
     }
 
 
-    public function setImage($image) {
+    public function setImage($image)
+    {
         //Elimina imagen previa
-        if(isset($this->id)) {
-            //Comprobar si existe el archivo
-            $archiveExist = file_exists(IMAGE_FOLDER.$this->image);
-            if($archiveExist) {
-                unlink(IMAGE_FOLDER.$this->image);
-            }
+        if (isset($this->id)) {
+            $this->imageDelete();
         }
 
-        if($image) {
+        if ($image) {
             $this->image = $image;
         }
     }
 
+    //Elimina el archivo
+    public function imageDelete()
+    {
+        //Comprobar si existe el archivo
+        $archiveExist = file_exists(IMAGE_FOLDER . $this->image);
+        if ($archiveExist) {
+            unlink(IMAGE_FOLDER . $this->image);
+        }
+    }
 
-    public static function getAll() {
+
+    public static function getAll()
+    {
         $query = "SELECT * FROM properties";
 
         $result = self::sqlConsult($query);
 
         return $result;
-
     }
 
-    public static function getPropertie($id) {
+    public static function getPropertie($id)
+    {
         $query = "SELECT * FROM properties WHERE id = ${id}";
         $result = self::sqlConsult($query);
         return array_shift($result);
-
     }
 
-    public static function sqlConsult($query) {
+    public static function sqlConsult($query)
+    {
         //Consultar la base de datos
         $result = self::$db->query($query);
 
         //Iterar los resultados
         $array = [];
-        while($register = $result->fetch_assoc()) {
+        while ($register = $result->fetch_assoc()) {
             $array[] = self::createObject($register);
         }
 
@@ -216,11 +236,12 @@ class Propertie
     }
 
 
-    protected static function createObject($register) {
+    protected static function createObject($register)
+    {
         $object = new self;
 
-        foreach($register as $key => $value) {
-            if(property_exists($object, $key)) {
+        foreach ($register as $key => $value) {
+            if (property_exists($object, $key)) {
                 $object->$key = $value;
             }
         }
@@ -230,13 +251,12 @@ class Propertie
 
 
     //Sincronizar el objeto en memoria con los cambios realizados por el usuario
-    public function sync($args = []) {
-        foreach($args as $key => $value) {
-            if(property_exists($this, $key) && is_null($value)) {
+    public function sync($args = [])
+    {
+        foreach ($args as $key => $value) {
+            if (property_exists($this, $key) && is_null($value)) {
                 $this->$key = $value;
             }
         }
     }
-
-
 }
