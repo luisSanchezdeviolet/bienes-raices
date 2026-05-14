@@ -13,7 +13,7 @@ isAuth();
 //Base de datos
 $db = dbConnect();
 
-$propertie = new Propertie;
+$propertie = new Propertie($_POST['propertie']);
 
 //Consultar para obtener los vendedores
 $consult = "SELECT * FROM sellers";
@@ -32,9 +32,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     //Generar nombre unico
     $imageName = md5(uniqid(rand(), true)) . '.jpg';
-    if($_FILES['image']['tmp_name']) {
+    if($_FILES['propertie']['tmp_name']['image']) {
         $manager = new Image(Driver::class);
-        $image = $manager->read($_FILES['image']['tmp_name'])->cover(800,600);
+        $image = $manager->read($_FILES['propertie']['tmp_name']['image'])->cover(800,600);
         $propertie->setImage($imageName);
     }
 

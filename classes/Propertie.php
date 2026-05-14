@@ -147,6 +147,13 @@ class Propertie
 
     }
 
+    public static function getPropertie($id) {
+        $query = "SELECT * FROM properties WHERE id = ${id}";
+        $result = self::sqlConsult($query);
+        return array_shift($result);
+
+    }
+
     public static function sqlConsult($query) {
         //Consultar la base de datos
         $result = self::$db->query($query);
@@ -177,4 +184,16 @@ class Propertie
 
         return $object;
     }
+
+
+    //Sincronizar el objeto en memoria con los cambios realizados por el usuario
+    public function sync($args = []) {
+        foreach($args as $key => $value) {
+            if(property_exists($this, $key) && is_null($value)) {
+                $this->$key = $value;
+            }
+        }
+    }
+
+
 }
