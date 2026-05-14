@@ -55,11 +55,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         //Guarda la imagen en el servidor
         $image->save(IMAGE_FOLDER.$imageName);
 
-        $result = $propertie->save();
-        if ($result) {
-            //Redireccionar al usuario
-            header('Location: ../index.php?result=1');
-        }
+        $propertie->save();
+
     }
 }
 

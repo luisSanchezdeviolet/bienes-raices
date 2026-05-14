@@ -26,7 +26,7 @@ class Propertie
 
     public function __construct($args = [])
     {
-        $this->id = $args['id'] ?? '';
+        $this->id = $args['id'] ?? null;
         $this->title = $args['title'] ?? '';
         $this->price = $args['price'] ?? '';
         $this->image = $args['image'] ?? '';
@@ -47,7 +47,7 @@ class Propertie
 
     public function save()
     {
-        if (isset($this->id)) {
+        if (!is_null($this->id)) {
             //actualizar
             $this->update();
         } else {
@@ -73,6 +73,11 @@ class Propertie
 
 
         $result = self::$db->query($query);
+
+        if ($result) {
+            //Redireccionar al usuario
+            header('Location: ../index.php?result=2');
+        }
     }
 
     public function update()
@@ -180,7 +185,7 @@ class Propertie
     public function setImage($image)
     {
         //Elimina imagen previa
-        if (isset($this->id)) {
+        if (!is_null($this->id)) {
             $this->imageDelete();
         }
 
