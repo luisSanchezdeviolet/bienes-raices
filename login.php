@@ -23,7 +23,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
     if(empty($errors)) {
         //Revisar siu el usuario existe
-        $query = "SELECT * FROM users WHERE email = '${email}'";
+        $query = "SELECT * FROM usuarios WHERE email = '${email}'";
         $result = mysqli_query($db, $query);
 
         if($result->num_rows) {

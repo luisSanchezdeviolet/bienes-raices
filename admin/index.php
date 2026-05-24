@@ -61,9 +61,9 @@ includeTemplate('header');
                 <?php foreach ($properties as $propertie): ?>
                     <tr>
                         <td><?= $propertie->id; ?></td>
-                        <td><?= $propertie->title; ?></td>
-                        <td><img src="../images/<?= $propertie->image; ?>" class="imagen-tabla" alt=""></td>
-                        <td>$<?= $propertie->price; ?></td>
+                        <td><?= $propertie->titulo; ?></td>
+                        <td><img src="../images/<?= $propertie->imagen; ?>" class="imagen-tabla" alt=""></td>
+                        <td>$<?= $propertie->precio; ?></td>
                         <td>
                             <form method="POST" class="w-100">
                                 <input type="hidden" name="id" value="<?= $propertie->id; ?>">

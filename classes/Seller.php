@@ -4,21 +4,21 @@
 namespace App;
 
 class Seller extends ActiveRecord {
-    protected static $table = 'sellers';
-    protected static $columnsDb = ['id', 'name', 'last_name', 'phone'];
+    protected static $table = 'vendedores';
+    protected static $columnsDb = ['id', 'nombre', 'apellido', 'telefono'];
 
     public $id;
-    public $name;
-    public $last_name;
-    public $phone;
+    public $nombre;
+    public $apellido;
+    public $telefono;
 
 
     public function __construct($args = [])
     {
         $this->id = $args['id'] ?? null;
-        $this->name = $args['name'] ?? '';
-        $this->last_name = $args['last_name'] ?? '';
-        $this->phone = $args['phone'] ?? '';
+        $this->nombre = $args['nombre'] ?? '';
+        $this->apellido = $args['apellido'] ?? '';
+        $this->telefono = $args['telefono'] ?? '';
         
     }
 

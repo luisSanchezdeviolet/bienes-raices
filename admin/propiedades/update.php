@@ -1,6 +1,7 @@
 <?php
 
 use App\Propertie;
+use App\Seller;
 use Intervention\Image\ImageManager as Image;
 
 
@@ -23,11 +24,10 @@ $propertie = Propertie::getPropertie($id);
 
 
 //Consultar para obtener los vendedores
-$consult = "SELECT * FROM sellers";
-$result = mysqli_query($db, $consult);
+$vendedores = Seller::getAll();
 
 //Arreglo con mensajes de errores
-$errors = Propertie::getErros();
+$errors = Propertie::getErrors();
 
 
 
@@ -52,8 +52,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (empty($errors)) {
-        //Almacenar la imagen
-        $image->save(IMAGE_FOLDER.$imageName);
+        if ($_FILES['propertie']['tmp_name']['image']) {
+            //Almacenar la imagen
+            $image->save(IMAGE_FOLDER.$imageName);
+        }
 
         $propertie->save();
 

@@ -3,23 +3,25 @@
 require '../../includes/app.php';
 
 use App\Propertie;
+use App\Seller;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager as Image;
 
 isAuth();
 
+var_dump($_POST);
 
 
-//Base de datos
-$db = dbConnect();
+$propertie = new Propertie;
 
-$propertie = new Propertie($_POST['propertie']);
 
-//Consultar para obtener los vendedores
-$consult = "SELECT * FROM sellers";
-$result = mysqli_query($db, $consult);
+//consulta para obtener todos los vendedores
+$vendedores = Seller::getAll();
 
-$errors = Propertie::getErros();
+
+$errors = Propertie::getErrors();
+
+
 
 
 

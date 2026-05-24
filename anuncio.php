@@ -12,7 +12,7 @@
     $db = dbConnect();
 
     //consultar
-    $query = "SELECT * FROM properties WHERE id = ${id}";
+    $query = "SELECT * FROM propiedades WHERE id = ${id}";
 
     //obtener el resultado
     $result = mysqli_query($db, $query);
