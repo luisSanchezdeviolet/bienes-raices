@@ -165,6 +165,18 @@ class ActiveRecord {
         return $result;
     }
 
+
+    //Obtiene determinado numero de registros
+    public static function getPropertiesSelect($count)
+    {
+        $query = "SELECT * FROM ".static::$table . " LIMIT " . $count;
+
+        $result = self::sqlConsult($query);
+
+        return $result;
+    }
+
+
     public static function getPropertie($id)
     {
         $query = "SELECT * FROM ". static::$table ." WHERE id = ${id}";
