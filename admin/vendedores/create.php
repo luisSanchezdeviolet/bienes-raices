@@ -11,6 +11,18 @@ $errors = Seller::getErrors();
 
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
 
+    //crear una nueva instancia
+    $seller = new Seller($_POST['seller']);
+
+
+    //Validar que no haya campos vacios
+    $errors = $seller->validate();
+
+    //No hay errores
+    if(empty($errors)) {
+        $seller->save();
+    }
+
 }
 
 

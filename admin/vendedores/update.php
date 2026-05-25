@@ -19,7 +19,7 @@ includeTemplate('header');
 
 
 <main class="contenedor">
-    <h1>Registrar Vendedor(a)</h1>
+    <h1>Actualizar Vendedor(a)</h1>
 
 
 
@@ -31,10 +31,10 @@ includeTemplate('header');
         </div>
 
     <?php endforeach; ?>
-    <form method="POST" action="../vendedores/create.php" class="formulario">
+    <form method="POST" action="../vendedores/update.php" class="formulario">
         <?php include '../../includes/templates/form_sellers.php'; ?>
 
-        <input type="submit" value="Crear Vendedor" class="boton boton-verde">
+        <input type="submit" value="Guardar Cambios" class="boton boton-verde">
 
     </form>
 </main>

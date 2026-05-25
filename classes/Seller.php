@@ -22,5 +22,28 @@ class Seller extends ActiveRecord {
         
     }
 
+
+    public function validate()
+    {
+        if (!$this->nombre) {
+            self::$errors[] = 'Debes añadir un nombre';
+        }
+        
+        if (!$this->apellido) {
+            self::$errors[] = 'Debes añadir un apellido';
+        }
+
+        if (!$this->telefono) {
+            self::$errors[] = 'Debes añadir un telefono';
+        }
+
+        if(!preg_match('/[0-9]{10}/', $this->telefono)) {
+            self::$errors[] = 'Formato no valido';
+        }
+
+        return self::$errors;
+
+    }
+
     
 }
