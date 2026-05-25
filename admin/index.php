@@ -58,6 +58,7 @@ includeTemplate('header');
     <?php endif; ?>
 
     <a href="propiedades/create.php" class="boton boton-verde">Nueva propiedad</a>
+    <a href="vendedores/create.php" class="boton boton-amarillo">Nuevo vendedor</a>
 
     <h2>Propiedades</h2>
 
