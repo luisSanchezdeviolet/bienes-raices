@@ -6,7 +6,7 @@ namespace App;
 class Propertie extends ActiveRecord
 {
     protected static $table = 'propiedades';
-    protected static $columnsDb = ['id', 'titulo', 'precio', 'imagen', 'descripcion', 'habitaciones', 'wc', 'estacionamiento', 'vendedorId', 'date'];
+    protected static $columnsDb = ['id', 'titulo', 'precio', 'imagen', 'descripcion', 'habitaciones', 'wc', 'estacionamiento', 'vendedorId', 'creado'];
 
 
     public $id;
@@ -18,7 +18,7 @@ class Propertie extends ActiveRecord
     public $wc;
     public $estacionamiento;
     public $vendedorId;
-    public $date;
+    public $creado;
 
     public function __construct($args = [])
     {
@@ -31,25 +31,25 @@ class Propertie extends ActiveRecord
         $this->wc = $args['wc'] ?? '';
         $this->estacionamiento = $args['estacionamiento'] ?? '';
         $this->vendedorId = $args['vendedorId'] ?? '';
-        $this->date = date('Y/m/d');
+        $this->creado = date('Y/m/d');
     }
 
 
     public function validate()
     {
-        if (!$this->title) {
+        if (!$this->titulo) {
             self::$errors[] = 'Debes añadir un titulo';
         }
 
-        if (!$this->price) {
+        if (!$this->precio) {
             self::$errors[] = 'El precio es Obligatorio';
         }
 
-        if (!(strlen($this->description) > 50)) {
+        if (!(strlen($this->descripcion) > 50)) {
             self::$errors[] = 'La descripcion es Obligatorio y debe tener al menos 50 caracteres';
         }
 
-        if (!$this->rooms) {
+        if (!$this->habitaciones) {
             self::$errors[] = 'El numero de habitaciones es obligatorio';
         }
 
@@ -57,7 +57,7 @@ class Propertie extends ActiveRecord
             self::$errors[] = 'El numero de baños es obligatorio';
         }
 
-        if (!$this->parking) {
+        if (!$this->estacionamiento) {
             self::$errors[] = 'El numero de estacionamientos es obligatorio';
         }
 
@@ -65,7 +65,7 @@ class Propertie extends ActiveRecord
             self::$errors[] = 'Elige un vendedor';
         }
 
-        if (!$this->image) {
+        if (!$this->imagen) {
             self::$errors[] = 'La imagen de la propiedad es obligatoria';
         }
 

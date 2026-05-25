@@ -9,7 +9,6 @@ use Intervention\Image\ImageManager as Image;
 
 isAuth();
 
-var_dump($_POST);
 
 
 $propertie = new Propertie;
@@ -22,21 +21,16 @@ $vendedores = Seller::getAll();
 $errors = Propertie::getErrors();
 
 
-
-
-
-
-
 //Ejeecutar el codigo despues de que el usuario envia el formulario
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    $propertie = new Propertie($_POST);
+    $propertie = new Propertie($_POST['propertie']);
 
     //Generar nombre unico
     $imageName = md5(uniqid(rand(), true)) . '.jpg';
-    if($_FILES['propertie']['tmp_name']['image']) {
+    if($_FILES['propertie']['tmp_name']['imagen']) {
         $manager = new Image(Driver::class);
-        $image = $manager->read($_FILES['propertie']['tmp_name']['image'])->cover(800,600);
+        $image = $manager->read($_FILES['propertie']['tmp_name']['imagen'])->cover(800,600);
         $propertie->setImage($imageName);
     }
 

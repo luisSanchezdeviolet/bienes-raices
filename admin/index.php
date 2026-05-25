@@ -9,7 +9,7 @@ use App\Seller;
 
 //implementar un metodo para  obtener las propiedades utilizando active records
 $properties = Propertie::getAll();
-$seller = Seller::getAll();
+$sellers = Seller::getAll();
 
 //Mostrar mensaje condicional
 $result = $_GET['result'] ?? null;
@@ -20,8 +20,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($id) {
 
-        $propertie = Propertie::getPropertie($id);
-        $propertie->delete();
+        $type = $_POST['type'];
+        if(validateContentType($type)) {
+            //Compara lo que vamos a eliminar
+            if($type === 'seller') {
+                $seller = Seller::getPropertie($id);
+                $seller->delete();
+            }else if ($type === 'propertie') {
+                $propertie = Propertie::getPropertie($id);
+                $propertie->delete();
+            } else {
+
+            }
+        }
+
+        
     }
 }
 
@@ -41,47 +54,81 @@ includeTemplate('header');
     <?php elseif (intval($result) === 2): ?>
         <p class="alerta exito">Anuncio actualizado correctamente</p>
     <?php elseif (intval($result) === 3): ?>
-        <p class="alerta exito">Anuncio eliminado correctamente</p
-            <?php endif; ?>
+        <p class="alerta exito">Anuncio eliminado correctamente</p>
+    <?php endif; ?>
 
-            <a href="propiedades/create.php" class="boton boton-verde">Nueva propiedad</a>
+    <a href="propiedades/create.php" class="boton boton-verde">Nueva propiedad</a>
 
-        <table class="propiedades">
-            <thead>
+    <h2>Propiedades</h2>
+
+    <table class="propiedades">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Titulo</th>
+                <th>Imagen</th>
+                <th>Precio</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <?php foreach ($properties as $propertie): ?>
                 <tr>
-                    <th>ID</th>
-                    <th>Titulo</th>
-                    <th>Imagen</th>
-                    <th>Precio</th>
-                    <th>Acciones</th>
+                    <td><?= $propertie->id; ?></td>
+                    <td><?= $propertie->titulo; ?></td>
+                    <td><img src="../images/<?= $propertie->imagen; ?>" class="imagen-tabla" alt=""></td>
+                    <td>$<?= $propertie->precio; ?></td>
+                    <td>
+                        <form method="POST" class="w-100">
+                            <input type="hidden" name="id" value="<?= $propertie->id; ?>">
+                            <input type="hidden" name="type" value="propertie">
+                            <input type="submit" value="Eliminar" class="boton-rojo-block">
+                        </form>
+                        <a href="propiedades/update.php?id=<?= $propertie->id; ?>" class="boton-amarillo-block">Actualizar</a>
+                    </td>
                 </tr>
-            </thead>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
 
-            <tbody>
-                <?php foreach ($properties as $propertie): ?>
-                    <tr>
-                        <td><?= $propertie->id; ?></td>
-                        <td><?= $propertie->titulo; ?></td>
-                        <td><img src="../images/<?= $propertie->imagen; ?>" class="imagen-tabla" alt=""></td>
-                        <td>$<?= $propertie->precio; ?></td>
-                        <td>
-                            <form method="POST" class="w-100">
-                                <input type="hidden" name="id" value="<?= $propertie->id; ?>">
-                                <input type="submit" value="Eliminar" class="boton-rojo-block">
-                            </form>
-                            <a href="propiedades/update.php?id=<?= $propertie->id; ?>" class="boton-amarillo-block">Actualizar</a>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
+    <h2>Vendedores</h2>
+
+
+    <table class="propiedades">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Teléfono</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <?php foreach ($sellers as $seller): ?>
+                <tr>
+                    <td><?= $seller->id; ?></td>
+                    <td><?= $seller->nombre . " " . $seller->apellido; ?></td>
+                    <td>$<?= $seller->telefono; ?></td>
+                    <td>
+                        <form method="POST" class="w-100">
+                            <input type="hidden" name="id" value="<?= $seller->id; ?>">
+                            <input type="hidden" name="type" value="seller">
+                            <input type="submit" value="Eliminar" class="boton-rojo-block">
+                        </form>
+                        <a href="sellers/update.php?id=<?= $seller->id; ?>" class="boton-amarillo-block">Actualizar</a>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+
 
 </main>
 
 <?php
 
-//Cerrar la conexion
-mysqli_close($db);
 
 includeTemplate('footer');
 ?>

@@ -66,7 +66,7 @@ class ActiveRecord {
 
         $values = [];
         foreach ($attributes as $key => $value) {
-            $values[] = "{$key}='value'";
+            $values[] = "{$key}='{$value}'";
         }
 
         $query = "UPDATE ". static::$table . " SET ";
@@ -135,21 +135,23 @@ class ActiveRecord {
     {
         //Elimina imagen previa
         if (!is_null($this->id)) {
-            $this->imageDelete();
+            $this->imageDelete($image);
         }
 
+
         if ($image) {
-            $this->image = $image;
+            $this->imagen = $image;
         }
     }
 
     //Elimina el archivo
     public function imageDelete()
     {
+        
         //Comprobar si existe el archivo
-        $archiveExist = file_exists(IMAGE_FOLDER . $this->image);
+        $archiveExist = is_file(IMAGE_FOLDER . $this->imagen);
         if ($archiveExist) {
-            unlink(IMAGE_FOLDER . $this->image);
+            unlink(IMAGE_FOLDER . $this->imagen);
         }
     }
 
@@ -208,7 +210,7 @@ class ActiveRecord {
     public function sync($args = [])
     {
         foreach ($args as $key => $value) {
-            if (property_exists($this, $key) && is_null($value)) {
+            if (property_exists($this, $key) && !is_null($value)) {
                 $this->$key = $value;
             }
         }

@@ -36,3 +36,9 @@ function sanitize($html): string {
     $s = htmlspecialchars($html);
     return $s;
 }
+
+//Validar tipo de contenido
+function validateContentType($type) {
+    $types = ['seller', 'propertie'];
+    return in_array($type, $types);
+}

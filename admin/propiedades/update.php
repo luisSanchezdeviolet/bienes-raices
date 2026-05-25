@@ -3,6 +3,7 @@
 use App\Propertie;
 use App\Seller;
 use Intervention\Image\ImageManager as Image;
+use Intervention\Image\Drivers\Gd\Driver;
 
 
 require '../../includes/app.php';
@@ -39,22 +40,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     //Asignar los atributos
     $args = $_POST['propertie'];
     $propertie->sync($args);
+    
 
     //validacion
     $errors = $propertie->validate();
 
     //Subida de archivos
     $imageName = md5(uniqid(rand(), true)) . '.jpg';
-    if ($_FILES['propertie']['tmp_name']['image']) {
-        $manager = new Image(Driver::class);
-        $image = $manager->read($_FILES['propertie']['tmp_name']['image'])->cover(800, 600);
+
+    if ($_FILES['propertie']['tmp_name']['imagen']) {
+        $manager = new Image(new Driver());
+        $imagen = $manager->read($_FILES['propertie']['tmp_name']['imagen'])->cover(800, 600);
         $propertie->setImage($imageName);
     }
 
     if (empty($errors)) {
-        if ($_FILES['propertie']['tmp_name']['image']) {
+        if ($_FILES['propertie']['tmp_name']['imagen']) {
             //Almacenar la imagen
-            $image->save(IMAGE_FOLDER.$imageName);
+            
+            $imagen->save(IMAGE_FOLDER.$imageName);
         }
 
         $propertie->save();
