@@ -1,56 +1,43 @@
 <?php
 
-    //importar la conexion
-    $db = dbConnect();
+    use App\Propertie;
 
-    //consultar
-    $query = "SELECT * FROM propiedades LIMIT ${limit}";
-
-    //obtener el resultado
-    $result = mysqli_query($db, $query);
+    $properties = Propertie::getAll();
 
 ?>
 
 
 <div class="contenedor-anuncios">
-            <?php while($propertie = mysqli_fetch_assoc($result)): ?>
+            <?php foreach($properties as $propertie){ ?>
             <div class="anuncio">
 
-                <img src="images/<?= $propertie['image']; ?>" alt="anuncio">
+                <img src="images/<?= $propertie->imagen; ?>" alt="anuncio">
                 
 
                 <div class="contenido-anuncio">
-                    <h3><?= $propertie['title']; ?></h3>
-                    <p><?= $propertie['description']; ?></p>
-                    <p class="precio">$ <?= $propertie['price']; ?></p>
+                    <h3><?= $propertie->titulo; ?></h3>
+                    <p><?= $propertie->descripcion; ?></p>
+                    <p class="precio">$ <?= $propertie->precio; ?></p>
 
                     <ul class="iconos-caracteristicas">
                         <li>
                             <img class="icono" loading="lazy" src="build/img/icono_wc.svg" alt="icono WC">
-                            <p><?= $propertie['wc']; ?></p>
+                            <p><?= $propertie->wc; ?></p>
                         </li>
                         <li>
                             <img class="icono" loading="lazy" src="build/img/icono_estacionamiento.svg" alt="icono estacionamiento">
-                            <p><?= $propertie['parking']; ?></p>
+                            <p><?= $propertie->estacionamiento; ?></p>
                         </li>
                         <li>
                             <img class="icono" loading="lazy" src="build/img/icono_dormitorio.svg" alt="icono recamaras">
-                            <p><?= $propertie['rooms']; ?></p>
+                            <p><?= $propertie->habitaciones; ?></p>
                         </li>
                     </ul>
 
-                    <a href="anuncio.php?id=<?= $propertie['id']; ?>" class="boton-amarillo-block">
+                    <a href="anuncio.php?id=<?= $propertie->id; ?>" class="boton-amarillo-block">
                         Ver propiedad
                     </a>
                 </div><!--Contenido anuncio-->
             </div><!--anuncio-->
-            <?php endwhile; ?>
+            <?php } ?>
         </div><!--Contenido-->
-
-
-<?php
-//Cerrar la conexion
-
-mysqli_close($db);
-
-?>

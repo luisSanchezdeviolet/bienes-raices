@@ -1,4 +1,7 @@
 <?php
+require 'includes/app.php';
+
+use App\Propertie;
 
     $id = $_GET['id'];
     $id = filter_var($id, FILTER_VALIDATE_INT);
@@ -7,51 +10,35 @@
         header('Location: index.php');
     }
 
-    require 'includes/app.php';
-
-    $db = dbConnect();
-
-    //consultar
-    $query = "SELECT * FROM propiedades WHERE id = ${id}";
-
-    //obtener el resultado
-    $result = mysqli_query($db, $query);
-
-    if(!$result->num_rows) {
-        header('Location: index.php');
-    }
-
-    $propertie = mysqli_fetch_assoc($result);
-
-    
+    $propertie = Propertie::getPropertie($id);
     
     includeTemplate('header');
 ?>
 
     <main class="contenedor seccion contenido-centrado">
-        <h1><?= $propertie['title']; ?></h1>
+        <h1><?= $propertie->titulo; ?></h1>
 
-        <img src="images/<?= $propertie['image']; ?>" alt="Imagen de la propiedad" loading="lazy">
+        <img src="images/<?= $propertie->imagen; ?>" alt="Imagen de la propiedad" loading="lazy">
 
 
         <div class="resumen-propiedad">
-            <p class="precio">$<?= $propertie['price']; ?></p>
+            <p class="precio">$<?= $propertie->precio; ?></p>
             <ul class="iconos-caracteristicas">
                 <li>
                     <img class="icono" loading="lazy" src="build/img/icono_wc.svg" alt="icono WC">
-                    <p><?= $propertie['wc']; ?></p>
+                    <p><?= $propertie->wc; ?></p>
                 </li>
                 <li>
                     <img class="icono" loading="lazy" src="build/img/icono_estacionamiento.svg" alt="icono estacionamiento">
-                    <p><?= $propertie['parking']; ?></p>
+                    <p><?= $propertie->estacionamiento; ?></p>
                 </li>
                 <li>
                     <img class="icono" loading="lazy" src="build/img/icono_dormitorio.svg" alt="icono recamaras">
-                    <p><?= $propertie['rooms']; ?></p>
+                    <p><?= $propertie->habitaciones; ?></p>
                 </li>
             </ul>
 
-            <p><?= $propertie['description']; ?>.</p>
+            <p><?= $propertie->descripcion; ?>.</p>
 
         </div>
     </main>
