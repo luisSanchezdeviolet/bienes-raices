@@ -118,7 +118,7 @@ includeTemplate('header');
                             <input type="hidden" name="type" value="seller">
                             <input type="submit" value="Eliminar" class="boton-rojo-block">
                         </form>
-                        <a href="sellers/update.php?id=<?= $seller->id; ?>" class="boton-amarillo-block">Actualizar</a>
+                        <a href="vendedores/update.php?id=<?= $seller->id; ?>" class="boton-amarillo-block">Actualizar</a>
                     </td>
                 </tr>
             <?php endforeach; ?>
